@@ -20,6 +20,7 @@ const keysReducer = (state, action) => {
 };
 
 const useKeyboardShortcut = (shortcutKeys, callback, options) => {
+  console.log('loaded custom hook useKeyboardShortcut')
   if (!Array.isArray(shortcutKeys))
     throw new Error(
       "The first parameter to `useKeyboardShortcut` must be an ordered array of `KeyboardEvent.key` strings."
@@ -95,14 +96,16 @@ const useKeyboardShortcut = (shortcutKeys, callback, options) => {
   }, [callback, keys]);
 
   useEffect(() => {
+    //console.log('useEffect for keydownListener');
     shortcutKeys.forEach(k => window.addEventListener("keydown", keydownListener(k)));
     return () => shortcutKeys.forEach(k => window.removeEventListener("keydown", keydownListener(k)));
-  }, []);
+  }, []); //keydownListener, shortcutKeys
 
   useEffect(() => {
+    //console.log('useEffect for keyupListener');
     shortcutKeys.forEach(k => window.addEventListener("keyup", keyupListener(k)));
     return () => shortcutKeys.forEach(k => window.removeEventListener("keyup", keyupListener(k)));
-  }, []);
+  }, []); //keyupListener, shortcutKeys
 };
 
 export default useKeyboardShortcut;
